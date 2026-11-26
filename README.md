@@ -15,3 +15,11 @@ This is a browser vault, not an OS keychain or biometric login. It protects stor
 Verification: real WebCrypto round trips and tamper/wrong-passphrase rejection; simulated IndexedDB transaction failure, fresh-context unlock, credential expiry, offline recovery, and lock during sync; 12 simulated view renders. Physical Safari/iPhone and Edge/PWA behavior still require device acceptance testing.
 
 Existing V4 backups are importable; import replaces local state. Back up first. New fields can be entered in Settings > 私人配置.
+
+## V4.0.3: Beijing application time
+
+The app uses Beijing time (UTC+08:00) for today, posture timestamps, daily totals, manual entry and sync status on every device. OS time zones remain unchanged. Both devices need this version for consistent date views. Calendar arithmetic does not depend on the host time zone.
+
+Historical posture records with valid timestamps are projected onto Beijing calendar days without rewriting their stored dates, timestamps or durations. A record crossing Beijing midnight contributes only its corresponding duration to each day; editing or deleting it affects the complete original record. Records without usable timestamps and existing date-only diary entries retain their original dates. Dates before the plan start remain accessible. New live sessions split at Beijing midnight. Tokens, encrypted vaults and private-data formats are unchanged.
+
+Verification includes the same app running under simulated Pacific and Shanghai host time zones, midnight splitting and duration conservation, manual-entry parsing, and unchanged historical source records. Physical two-device acceptance remains a separate step.
