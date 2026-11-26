@@ -1,0 +1,5 @@
+const CACHE='personal-life-os-cloud-4.0.1';
+const ASSETS=['./index.html','./manifest.json','./icon-192.png','./icon-512.png'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('personal-life-os-cloud-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{let u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==self.location.origin||!u.pathname.startsWith(new URL(self.registration.scope).pathname))return;let allowed=ASSETS.some(a=>new URL(a,self.registration.scope).pathname===u.pathname)||e.request.mode==='navigate';if(!allowed)return;e.respondWith(fetch(e.request).then(async r=>{if(r.ok){let c=await caches.open(CACHE);await c.put(e.request,r.clone());}return r;}).catch(async()=>await caches.match(e.request)||(e.request.mode==='navigate'?await caches.match(new URL('./index.html',self.registration.scope).href):null)||Response.error()));});

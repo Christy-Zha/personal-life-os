@@ -1,0 +1,11 @@
+# Only audited application assets belong in this public repository.
+*
+!.gitignore
+!.gitattributes
+!.nojekyll
+!README.md
+!index.html
+!manifest.json
+!sw.js
+!icon-192.png
+!icon-512.png
